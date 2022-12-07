@@ -1,8 +1,3 @@
-package observer;
-
-/*
-Use the class you've implemented in previous assignment
- */
 import java.util.Stack;
 
 /**
