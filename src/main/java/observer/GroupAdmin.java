@@ -1,23 +1,24 @@
 package observer;
 
-import java.awt.*;
 import java.util.ArrayList;
 
-public class StringBuilderObservAble implements Sender{
+public class GroupAdmin implements Sender{
+    //This is the Observable class
 
-    private Member member;
+    private ArrayList<UndoableStringBuilder> usbDB = new ArrayList<UndoableStringBuilder>();
     private ArrayList memberList;
 
 
-    public StringBuilderObservAble(Member member) {
-        this.member = member;
-        memberList = new ArrayList();
+    public GroupAdmin(UndoableStringBuilder usb) {
+        this.usbDB.add(usb);
+        this.memberList = new ArrayList();
     }
     /**
      * @param obj
      */
     @Override
     public void register(Member obj) {
+        this.memberList.add(obj);
 
     }
 
@@ -26,7 +27,7 @@ public class StringBuilderObservAble implements Sender{
      */
     @Override
     public void unregister(Member obj) {
-
+        this.memberList.remove(obj);
     }
 
     /**
