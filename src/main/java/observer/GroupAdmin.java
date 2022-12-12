@@ -8,6 +8,21 @@ public class GroupAdmin implements Sender {
     private UndoableStringBuilder usbDB = new UndoableStringBuilder();
     private ArrayList memberList;
 
+    public UndoableStringBuilder getUsbDB() {
+        return usbDB;
+    }
+
+    public void setUsbDB(UndoableStringBuilder usbDB) {
+        this.usbDB = usbDB;
+    }
+
+    public ArrayList getMemberList() {
+        return memberList;
+    }
+
+    public void setMemberList(ArrayList memberList) {
+        this.memberList = memberList;
+    }
 
     public GroupAdmin(UndoableStringBuilder usb) {
         this.usbDB = usb;
@@ -39,7 +54,7 @@ public class GroupAdmin implements Sender {
         }
     }
 
-    private void notifyAllObservers() {
+    public void notifyAllObservers() {
         for (int i = 0; i < this.memberList.size(); i++) {
             ((ConcreteMember) this.memberList.get(i)).update(this.usbDB);
         }
@@ -75,6 +90,7 @@ public class GroupAdmin implements Sender {
     }
 
     /**
+     *
      *
      */
     @Override

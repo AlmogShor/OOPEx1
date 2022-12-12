@@ -1,3 +1,5 @@
+package observer;
+
 import observer.Ex0UndoableStringBuilder;
 import observer.UndoableStringBuilder;
 import org.junit.platform.commons.logging.Logger;

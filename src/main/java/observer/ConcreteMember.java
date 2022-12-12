@@ -6,13 +6,29 @@ public class ConcreteMember implements Member {
     private UndoableStringBuilder usb;
     private GroupAdmin ourBoss;
 
-    /**
-     * @param usb
-     */
-    public ConcreteMember(UndoableStringBuilder usb, GroupAdmin boss) {
+    public UndoableStringBuilder getUsb() {
+        return usb;
+    }
+
+    public void setUsb(UndoableStringBuilder usb) {
         this.usb = usb;
+    }
+
+    public GroupAdmin getOurBoss() {
+        return ourBoss;
+    }
+
+    public void setOurBoss(GroupAdmin ourBoss) {
+        this.ourBoss = ourBoss;
+    }
+
+    /**
+     * @param boss - The GroupAdmin
+     */
+    public ConcreteMember(GroupAdmin boss) {
         this.ourBoss = boss;
         this.ourBoss.register(this);
+        this.ourBoss.notifyAllObservers();
     }
 
     /**
