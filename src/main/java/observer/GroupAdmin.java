@@ -2,23 +2,28 @@ package observer;
 
 import java.util.ArrayList;
 
-public class GroupAdmin implements Sender{
+public class GroupAdmin implements Sender {
     //This is the Observable class
 
-    private ArrayList<UndoableStringBuilder> usbDB = new ArrayList<UndoableStringBuilder>();
+    private UndoableStringBuilder usbDB = new UndoableStringBuilder();
     private ArrayList memberList;
 
 
     public GroupAdmin(UndoableStringBuilder usb) {
-        this.usbDB.add(usb);
-        this.memberList = new ArrayList();
+        this.usbDB = usb;
+        this.memberList = new ArrayList<ConcreteMember>();
     }
+
     /**
      * @param obj
      */
     @Override
     public void register(Member obj) {
-        this.memberList.add(obj);
+        if (obj instanceof ConcreteMember) {
+            this.memberList.add((ConcreteMember) obj);
+        } else {
+            System.out.println("Error: Not a ConcreteMember, its just a Member of " + obj.getClass().getName());
+        }
 
     }
 
@@ -27,7 +32,17 @@ public class GroupAdmin implements Sender{
      */
     @Override
     public void unregister(Member obj) {
-        this.memberList.remove(obj);
+        if (obj instanceof ConcreteMember) {
+            this.memberList.remove((ConcreteMember) obj);
+        } else {
+            System.out.println("Error: Not a ConcreteMember, its just a Member of " + obj.getClass().getName());
+        }
+    }
+
+    private void notifyAllObservers() {
+        for (int i = 0; i < this.memberList.size(); i++) {
+            ((ConcreteMember) this.memberList.get(i)).update(this.usbDB);
+        }
     }
 
     /**
@@ -36,7 +51,8 @@ public class GroupAdmin implements Sender{
      */
     @Override
     public void insert(int offset, String obj) {
-
+        this.usbDB.insert(offset, obj);
+        notifyAllObservers();
     }
 
     /**
@@ -44,7 +60,8 @@ public class GroupAdmin implements Sender{
      */
     @Override
     public void append(String obj) {
-
+        this.usbDB.append(obj);
+        notifyAllObservers();
     }
 
     /**
@@ -53,7 +70,8 @@ public class GroupAdmin implements Sender{
      */
     @Override
     public void delete(int start, int end) {
-
+        this.usbDB.delete(start, end);
+        notifyAllObservers();
     }
 
     /**
@@ -61,6 +79,7 @@ public class GroupAdmin implements Sender{
      */
     @Override
     public void undo() {
-
+        this.usbDB.undo();
+        notifyAllObservers();
     }
 }
