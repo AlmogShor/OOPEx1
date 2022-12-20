@@ -3,7 +3,12 @@ package observer;
 /*
 Use the class you've implemented in previous assignment
  */
+
 import java.util.Stack;
+
+interface Action {
+    void undo();
+}
 
 /**
  * A class to read numbers and strings from standard input with an undo option.
@@ -18,15 +23,31 @@ public class UndoableStringBuilder implements Ex0UndoableStringBuilder {
     private String str;
     Stack<String> undoStrs;
     int undoIndex;
+    private StringBuilder stringBuilder; // delegate
+    /**
+     * Operations that are the reverse of those performed.
+     * That is, when append is called, it is placed on the stack
+     * "delete" operation. When calling undo() it
+     * will be executed.
+     */
+    private Stack<Action> actions = new Stack<>();
+
+    // constructor
 
     /**
      * Constructs a string builder with no characters in it and an initial capacity of 16 characters.
      */
     public UndoableStringBuilder() {
-        str = "";
-        undoStrs = new Stack<String>();
+        stringBuilder = new StringBuilder();
+
+        //Our additions
+        this.undoStrs = new Stack<String>();
         undoIndex = 0;
+        str = "";
     }
+
+
+    //C'tr with a string - Our addition
 
     /**
      * Constructs a string builder with no characters in it and an initial capacity specified by the user.
@@ -40,19 +61,28 @@ public class UndoableStringBuilder implements Ex0UndoableStringBuilder {
     }
 
     /**
-     * Undo the last operation.
-     * If there is no operation to undo, the method does nothing.
+     * Causes this character sequence to be replaced by the reverse of the sequence.
      *
-     * @see Ex0UndoableStringBuilder#undo()
+     * @return - a reference to this object
+     * @see Ex0UndoableStringBuilder#reverse()
      */
-    public void undo() {
-        if (undoIndex == 0) {
-            return;
-        }
-        this.str = undoStrs.pop();
-        this.undoIndex--;
+    public UndoableStringBuilder reverse() {
+        stringBuilder.reverse();
+        Action action = new Action() {
+            public void undo() {
+                stringBuilder.reverse();
+            }
+        };
+        actions.add(action);
+        return this;
+        //our solution
+        /*
+         undoStrs.push(this.str);
+        undoIndex++;
+        this.str = new StringBuilder(this.str).reverse().toString();
+        return this;
+         */
     }
-
 
     /**
      * Appends the specified string to this character sequence.
@@ -62,8 +92,20 @@ public class UndoableStringBuilder implements Ex0UndoableStringBuilder {
      * @throws NullPointerException - looking for "null" entering and don't accept it as append
      * @see Ex0UndoableStringBuilder#append(java.lang.String)
      */
-    @Override
     public UndoableStringBuilder append(String str) {
+        stringBuilder.append(str);
+
+        Action action = new Action() {
+            public void undo() {
+                stringBuilder.delete(
+                        stringBuilder.length() - str.length(),
+                        stringBuilder.length());
+            }
+        };
+        actions.add(action);
+        return this;
+        //our solution
+        /*
         try {
             if (!(str.equals(""))) {
                 undoStrs.push(this.str);
@@ -77,55 +119,8 @@ public class UndoableStringBuilder implements Ex0UndoableStringBuilder {
             }
         }
         return this;
+         */
     }
-
-    /**
-     * Removes the characters in a substring of this sequence.
-     * The substring begins at the specified start and extends to the character at index end - 1 or to the end of the sequence if no such character exists.
-     * If start is equal to end, no changes are made.
-     *
-     * @param start - the beginning index, inclusive
-     * @param end   - the ending index, exclusive
-     * @return - a reference to this object
-     * @throws StringIndexOutOfBoundsException we fix cases of negative, opposite values, end bigger then the current string.
-     * @throws StringIndexOutOfBoundsException if the start smaller bigger then the string length, we do nothing/
-     * @see Ex0UndoableStringBuilder#delete(int, int)
-     */
-    @Override
-    public UndoableStringBuilder delete(int start, int end) {
-        try {
-            undoStrs.push(this.str);
-            undoIndex++;
-            this.str = this.str.substring(0, start) + this.str.substring(end); // not sure if this is the best way to do it, or they want it just opposite
-            return this;
-        } catch (Exception e) {
-            if (e.getClass().toString().equals("class java.lang.StringIndexOutOfBoundsException")) {
-                this.str = undoStrs.pop();
-                this.undoIndex--;
-                e.printStackTrace();
-                System.out.println("Not valid range, we will take it from here it's your lucky day");
-                if (this.str.length() < end && this.str.length() > start) {
-                    //case where it is required to delete characters up to more than the length of the string
-                    end = this.str.length() - 1;
-                    undoStrs.push(this.str);
-                    undoIndex++;
-                    this.str = this.str.substring(0, start) + this.str.substring(end + 1); // not sure if this is the best way to do it. or they want it just opposite
-                    return this;
-                } else if (start < 0 || end < 0) {
-                    end = Math.abs(end);
-                    start = Math.abs(start);
-                    this.delete(start, end);
-                } else if (start > end) {
-                    this.delete(end, start);
-                } else if (this.str.length() < start)
-                    //case where it is required to delete characters starting at a place higher than the length of the string
-                    return this;
-            }
-        } finally {
-            return this;
-        }
-    }
-
 
     /**
      * Inserts the string into this character sequence.
@@ -136,9 +131,18 @@ public class UndoableStringBuilder implements Ex0UndoableStringBuilder {
      * * @exception  StringIndexOutOfBoundsException if the start smaller bigger then the string length, we do nothing/
      * @see Ex0UndoableStringBuilder#insert(int, java.lang.String)
      */
-    @Override
     public UndoableStringBuilder insert(int offset, String str) {
-        try {
+        stringBuilder.insert(offset, str);
+        Action action = new Action() {
+            public void undo() {
+                stringBuilder.delete(offset, offset + str.length());
+            }
+        };
+        actions.add(action);
+        return this;
+        //our solution
+        /*
+         try {
             undoStrs.push(this.str);
             undoIndex++;
             this.str = this.str.substring(0, offset) + str + this.str.substring(offset); // not sure if this is the best way to do it. or they want it just opposite
@@ -175,8 +179,66 @@ public class UndoableStringBuilder implements Ex0UndoableStringBuilder {
         } finally {
             return this;
         }
+         */
     }
 
+    /**
+     * Removes the characters in a substring of this sequence.
+     * The substring begins at the specified start and extends to the character at index end - 1 or to the end of the sequence if no such character exists.
+     * If start is equal to end, no changes are made.
+     *
+     * @param start - the beginning index, inclusive
+     * @param end   - the ending index, exclusive
+     * @return - a reference to this object
+     * @throws StringIndexOutOfBoundsException we fix cases of negative, opposite values, end bigger then the current string.
+     * @throws StringIndexOutOfBoundsException if the start smaller bigger then the string length, we do nothing/
+     * @see Ex0UndoableStringBuilder#delete(int, int)
+     */
+    public UndoableStringBuilder delete(int start, int end) {
+        String deleted = stringBuilder.substring(start, end);
+        stringBuilder.delete(start, end);
+        Action action = new Action() {
+            public void undo() {
+                stringBuilder.insert(start, deleted);
+            }
+        };
+        actions.add(action);
+        return this;
+        //our solution
+        /*
+        try {
+            undoStrs.push(this.str);
+            undoIndex++;
+            this.str = this.str.substring(0, start) + this.str.substring(end); // not sure if this is the best way to do it, or they want it just opposite
+            return this;
+        } catch (Exception e) {
+            if (e.getClass().toString().equals("class java.lang.StringIndexOutOfBoundsException")) {
+                this.str = undoStrs.pop();
+                this.undoIndex--;
+                e.printStackTrace();
+                System.out.println("Not valid range, we will take it from here it's your lucky day");
+                if (this.str.length() < end && this.str.length() > start) {
+                    //case where it is required to delete characters up to more than the length of the string
+                    end = this.str.length() - 1;
+                    undoStrs.push(this.str);
+                    undoIndex++;
+                    this.str = this.str.substring(0, start) + this.str.substring(end + 1); // not sure if this is the best way to do it. or they want it just opposite
+                    return this;
+                } else if (start < 0 || end < 0) {
+                    end = Math.abs(end);
+                    start = Math.abs(start);
+                    this.delete(start, end);
+                } else if (start > end) {
+                    this.delete(end, start);
+                } else if (this.str.length() < start)
+                    //case where it is required to delete characters starting at a place higher than the length of the string
+                    return this;
+            }
+        } finally {
+            return this;
+        }
+         */
+    }
 
     /**
      * Replaces the characters in a substring of this sequence with characters in the specified String.
@@ -191,8 +253,18 @@ public class UndoableStringBuilder implements Ex0UndoableStringBuilder {
      * @throws StringIndexOutOfBoundsException we fix cases of negative, opposite values, end bigger then the current strings length.
      * @see Ex0UndoableStringBuilder#replace(int, int, java.lang.String)
      */
-    @Override
     public UndoableStringBuilder replace(int start, int end, String str) {
+        String deleted = stringBuilder.substring(start, end);
+        stringBuilder.replace(start, end, str);
+        Action action = new Action() {
+            public void undo() {
+                stringBuilder.replace(start, start + str.length(), deleted);
+            }
+        };
+        actions.add(action);
+        return this;
+        //our solution
+        /*
         try {
             undoStrs.push(this.str);
             undoIndex++;
@@ -232,20 +304,24 @@ public class UndoableStringBuilder implements Ex0UndoableStringBuilder {
         } finally {
             return this;
         }
+         */
     }
 
     /**
-     * Causes this character sequence to be replaced by the reverse of the sequence.
+     * Undo the last operation.
+     * If there is no operation to undo, the method does nothing.
      *
-     * @return - a reference to this object
-     * @see Ex0UndoableStringBuilder#reverse()
+     * @see Ex0UndoableStringBuilder#undo()
      */
-    @Override
-    public UndoableStringBuilder reverse() {
-        undoStrs.push(this.str);
-        undoIndex++;
-        this.str = new StringBuilder(this.str).reverse().toString();
-        return this;
+    public void undo() {
+        if (!actions.isEmpty()) {
+            actions.pop().undo();
+        }
+        //Our additions
+        if (undoIndex == 0) {
+            return;
+        }
+        this.undoIndex--;
     }
 
     /**
@@ -255,8 +331,13 @@ public class UndoableStringBuilder implements Ex0UndoableStringBuilder {
      * @see Ex0UndoableStringBuilder#toString()
      */
     public String toString() {
+        return stringBuilder.toString();
+        //our solution
+        /*
         return this.str;
+         */
     }
+
 
     /**
      * get the undo Index
