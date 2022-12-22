@@ -32,7 +32,7 @@ public class Tests {
         logger.info(() -> "Expected: 5 members in the GroupAdmin");
         logger.info(() -> "Actual: " + boss.getMemberList().size());
 //        System.out.println(boss.getMemberList().size());
-        assert (boss.getMemberList().size() == 5);
+        assertEquals(boss.getMemberList().size(), 5);
     }
 
     @Test
