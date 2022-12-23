@@ -7,7 +7,6 @@ public class ConcreteMember implements Member {
     private GroupAdmin ourBoss;
 
 
-
     /**
      * @param boss - The GroupAdmin
      */
@@ -27,8 +26,14 @@ public class ConcreteMember implements Member {
     }
 
     public boolean register() {
-        return this.ourBoss.register(this);
+        this.ourBoss.register(this);
+        if (this.ourBoss.getMemberList().contains(this)) {
+            return true;
+        } else {
+            return false;
+        }
     }
+
     public boolean unregister() {
         try {
             this.ourBoss.unregister(this);
@@ -38,6 +43,7 @@ public class ConcreteMember implements Member {
             return false;
         }
     }
+
     public UndoableStringBuilder getUsb() {
         return usb;
     }
