@@ -19,7 +19,7 @@ interface Action {
  * @since 2022-03-01
  */
 
-class UndoableStringBuilder {
+class UndoableStringBuilder implements Ex0UndoableStringBuilder {
 
 
     private StringBuilder stringBuilder; // delegate
@@ -32,10 +32,12 @@ class UndoableStringBuilder {
     private Stack<Action> actions = new Stack<>();
 
     // constructor
+
     public UndoableStringBuilder() {
         stringBuilder = new StringBuilder();
     }
 
+    @Override
     public UndoableStringBuilder reverse() {
         stringBuilder.reverse();
         Action action = new Action() {
@@ -47,6 +49,7 @@ class UndoableStringBuilder {
         return this;
     }
 
+    @Override
     public UndoableStringBuilder append(String str) {
         stringBuilder.append(str);
 
@@ -61,6 +64,7 @@ class UndoableStringBuilder {
         return this;
     }
 
+    @Override
     public UndoableStringBuilder insert(int offset, String str) {
         try {
 
@@ -100,6 +104,7 @@ class UndoableStringBuilder {
         return this;
     }
 
+    @Override
     public UndoableStringBuilder delete(int start, int end) {
 
         try {
@@ -133,6 +138,7 @@ class UndoableStringBuilder {
         return this;
     }
 
+    @Override
     public UndoableStringBuilder replace(int start, int end, String str) {
         try {
 
@@ -174,12 +180,14 @@ class UndoableStringBuilder {
         return this;
     }
 
+    @Override
     public void undo() {
         if (!actions.isEmpty()) {
             actions.pop().undo();
         }
     }
 
+    @Override
     public String toString() {
         return stringBuilder.toString();
     }
