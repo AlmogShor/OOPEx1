@@ -5,23 +5,13 @@ import java.util.ArrayList;
 public class GroupAdmin implements Sender {
     //This is the Observable class
 
-    private UndoableStringBuilder usbDB = new UndoableStringBuilder();
+    private UndoableStringBuilder usbDB;
     private ArrayList memberList;
 
-    public UndoableStringBuilder getUsbDB() {
-        return usbDB;
-    }
 
-    public void setUsbDB(UndoableStringBuilder usbDB) {
-        this.usbDB = usbDB;
-    }
-
-    public ArrayList getMemberList() {
-        return memberList;
-    }
-
-    public void setMemberList(ArrayList memberList) {
-        this.memberList = memberList;
+    public GroupAdmin() {
+        this.usbDB  = new UndoableStringBuilder();
+        this.memberList = new ArrayList<ConcreteMember>();
     }
 
     public GroupAdmin(UndoableStringBuilder usb) {
@@ -97,5 +87,20 @@ public class GroupAdmin implements Sender {
     public void undo() {
         this.usbDB.undo();
         notifyAllObservers();
+    }
+    public UndoableStringBuilder getUsbDB() {
+        return usbDB;
+    }
+
+    public void setUsbDB(UndoableStringBuilder usbDB) {
+        this.usbDB = usbDB;
+    }
+
+    public ArrayList getMemberList() {
+        return memberList;
+    }
+
+    protected void setMemberList(ArrayList memberList) {
+        this.memberList = memberList;
     }
 }

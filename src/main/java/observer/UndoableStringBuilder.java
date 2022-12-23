@@ -38,12 +38,12 @@ public class UndoableStringBuilder implements Ex0UndoableStringBuilder {
      * Constructs a string builder with no characters in it and an initial capacity of 16 characters.
      */
     public UndoableStringBuilder() {
-        stringBuilder = new StringBuilder();
+        this.stringBuilder = new StringBuilder();
 
         //Our additions
         this.undoStrs = new Stack<String>();
         undoIndex = 0;
-        str = "";
+        this.str = "";
     }
 
 
@@ -54,11 +54,11 @@ public class UndoableStringBuilder implements Ex0UndoableStringBuilder {
      *
      * @param str - user specified initial capacity
      */
-    public UndoableStringBuilder(String str) {
-        this.str = str;
-        this.undoStrs = new Stack<String>();
-        this.undoIndex = 0;
-    }
+//    public UndoableStringBuilder(String str) {
+//        this.str = str;
+//        this.undoStrs = new Stack<String>();
+//        this.undoIndex = 0;
+//    }
 
     /**
      * Causes this character sequence to be replaced by the reverse of the sequence.

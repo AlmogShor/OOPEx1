@@ -6,21 +6,7 @@ public class ConcreteMember implements Member {
     private UndoableStringBuilder usb;
     private GroupAdmin ourBoss;
 
-    public UndoableStringBuilder getUsb() {
-        return usb;
-    }
 
-    public void setUsb(UndoableStringBuilder usb) {
-        this.usb = usb;
-    }
-
-    public GroupAdmin getOurBoss() {
-        return ourBoss;
-    }
-
-    public void setOurBoss(GroupAdmin ourBoss) {
-        this.ourBoss = ourBoss;
-    }
 
     /**
      * @param boss - The GroupAdmin
@@ -37,9 +23,12 @@ public class ConcreteMember implements Member {
     @Override
     public void update(UndoableStringBuilder usb) {
         this.usb = usb; // Is this the right way to do it? Or should i ask for an update from ourBoss? or the post should call this func?
-        System.out.println("StringBuilderObserver: " + usb);
+        System.out.println("The UndoableStringBuilder has been updated to: " + this.usb.toString());
     }
 
+    public boolean register() {
+        return this.ourBoss.register(this);
+    }
     public boolean unregister() {
         try {
             this.ourBoss.unregister(this);
@@ -48,6 +37,21 @@ public class ConcreteMember implements Member {
             e.printStackTrace();
             return false;
         }
+    }
+    public UndoableStringBuilder getUsb() {
+        return usb;
+    }
+
+    protected void setUsb(UndoableStringBuilder usb) {
+        this.usb = usb;
+    }
+
+    public GroupAdmin getOurBoss() {
+        return ourBoss;
+    }
+
+    public void setOurBoss(GroupAdmin ourBoss) {
+        this.ourBoss = ourBoss;
     }
 }
 
