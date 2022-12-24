@@ -10,7 +10,7 @@ public class GroupAdmin implements Sender {
 
 
     public GroupAdmin() {
-        this.usbDB  = new UndoableStringBuilder();
+        this.usbDB = new UndoableStringBuilder();
         this.memberList = new ArrayList<ConcreteMember>();
     }
 
@@ -79,8 +79,17 @@ public class GroupAdmin implements Sender {
         notifyAllObservers();
     }
 
+    public void replace(int start, int end, String obj) {
+        this.usbDB.replace(start, end, obj);
+        notifyAllObservers();
+    }
+
+    public void reverse() {
+        this.usbDB.reverse();
+        notifyAllObservers();
+    }
+
     /**
-     *
      *
      */
     @Override
@@ -88,6 +97,7 @@ public class GroupAdmin implements Sender {
         this.usbDB.undo();
         notifyAllObservers();
     }
+
     public UndoableStringBuilder getUsbDB() {
         return usbDB;
     }
