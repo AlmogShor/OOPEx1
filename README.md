@@ -22,4 +22,15 @@ In order to understand more about the structure of the project,
 especially the structure of Observer.
 ![observer](https://user-images.githubusercontent.com/92925727/209137747-b6cb8a80-2ad2-43da-a7cd-81149c45a8e2.png)
 
+##   Download and run the Project:
+
+
+Download the whole project and export it by the above actions:
+```
+Click Code (Green Button) -> Click Download ZIP -> Choose Extract to Folder in Zip 
+```
+Run the Server from cmd in the folder which contains 'Ex4_Server_v0.0.jar', choose one of the 16 cases ([0,15]):
+```
+java -jar Ex4_Server_v0.0.jar [0,15]
+```
 
