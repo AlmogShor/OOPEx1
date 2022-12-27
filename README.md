@@ -29,8 +29,5 @@ Download the whole project and export it by the above actions:
 ```
 Click Code (Green Button) -> Click Download ZIP -> Choose Extract to Folder in Zip 
 ```
-Run the Server from cmd in the folder which contains 'Ex4_Server_v0.0.jar', choose one of the 16 cases ([0,15]):
-```
-java -jar Ex4_Server_v0.0.jar [0,15]
-```
+
 
