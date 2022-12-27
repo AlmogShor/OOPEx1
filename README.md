@@ -16,6 +16,30 @@ This is our own implementation for StringBuilder class with support for the undo
 After implementing a number of basic methods similar to the original String Builder, we created the ability to save each execution of a method in a data structure in order to enable the ability to follow the methods. Tracking the method gives us the ability to return to the original string before the method was run on it.
 You can learn more about this project here [UndoableStringBuilder](https://github.com/AlmogShor/OOP-Ex0-2nd.git).
 
+## Observer patern using UndoableString Builder
+
+- [x] **Member** Interfase represents the observer .
+- [x] **ConcreteMember** 
+  > The class contains a sallow copy of the UndoableStringBuilder database.
+    - **Update** - updates the pointer to the shalow 
+ 
+
+- [x] **Sender** Interfase represents the observerable.
+- [x] **GroupAdmin**
+  > The class contains the UdoableStringBuilder state array and a list of Customers who should receive updates on any changes made to the database.
+    - **Register** - methods to register  observers.
+    - **Unregister** - methods to unregister observers.
+    - **Insert** - Inserts the string into this character sequence.
+    - **Append** - Appends the specified string to this character sequence.
+    - **Delete** - Removes the characters in a substring of this sequence.
+    - **Undo** - Erases the last change done to the document, reverting it to an older state.
+
+
+
+
+    
+    
+
 
 ## UML diagram of our project
 In order to understand more about the structure of the project, 
@@ -23,7 +47,6 @@ especially the structure of Observer.
 ![observer](https://user-images.githubusercontent.com/92925727/209137747-b6cb8a80-2ad2-43da-a7cd-81149c45a8e2.png)
 
 ##   Download and run the Project:
-
 
 Download the whole project and export it by the above actions:
 ```
