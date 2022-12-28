@@ -28,11 +28,11 @@ public class Tests {
     ConcreteMember cm5 = new ConcreteMember(ga3);
     ConcreteMember cm6 = new ConcreteMember(ga3);
     ConcreteMember cm7 = new ConcreteMember(ga3);
-    ConcreteMember cm8 = new ConcreteMember(ga3);
-    ConcreteMember cm9 = new ConcreteMember(ga3);
-    ConcreteMember cm10 = new ConcreteMember(ga3);
-    ConcreteMember cm11 = new ConcreteMember(ga3);
-    ConcreteMember cm12 = new ConcreteMember(ga3);
+//    ConcreteMember cm8 = new ConcreteMember(ga3);
+//    ConcreteMember cm9 = new ConcreteMember(ga3);
+//    ConcreteMember cm10 = new ConcreteMember(ga3);
+//    ConcreteMember cm11 = new ConcreteMember(ga3);
+//    ConcreteMember cm12 = new ConcreteMember(ga3);
 
 
     @Test
