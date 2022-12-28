@@ -118,6 +118,8 @@ public class Tests {
         assertEquals(ga3.getUsbDB(), cm6.getUsb());
         assertEquals("Hello", cm7.getUsb().toString());
         assertEquals(ga3.getUsbDB(), cm7.getUsb());
+        assertDoesNotThrow(() -> ga3.insert(ga3.toString().length() + 100, "Hello"));
+        assertDoesNotThrow(() -> ga3.insert(-1, "Hello"));
     }
 
     @Test
@@ -136,6 +138,8 @@ public class Tests {
         assertEquals(ga3.getUsbDB(), cm6.getUsb());
         assertEquals("World", cm7.getUsb().toString());
         assertEquals(ga3.getUsbDB(), cm7.getUsb());
+        assertDoesNotThrow(() -> ga3.delete(ga3.toString().length() + 100, 5));
+        assertDoesNotThrow(() -> ga3.delete(-1, 5));
     }
 
     @Test
