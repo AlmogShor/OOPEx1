@@ -25,7 +25,7 @@ public  ConcreteMember(){
     @Override
     public void update(UndoableStringBuilder usb) {
         this.usb = usb; // Is this the right way to do it? Or should i ask for an update from ourBoss? or the post should call this func?
-        System.out.println("The UndoableStringBuilder has been updated to: " + this.usb.toString());
+//        System.out.println("The UndoableStringBuilder has been updated to: " + this.usb.toString());
     }
 
     public boolean register() {

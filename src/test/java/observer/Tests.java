@@ -1,5 +1,6 @@
 package observer;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
@@ -10,7 +11,7 @@ import observer.*;
 
 
 public class Tests {
-    public static final Logger logger = LoggerFactory.getLogger(Tests.class);
+    final Logger logger = LoggerFactory.getLogger(Tests.class);
     // stub method to check external dependencies compatibility
     UndoableStringBuilder usb1 = new UndoableStringBuilder();
     UndoableStringBuilder usb2 = new UndoableStringBuilder();
@@ -28,7 +29,7 @@ public class Tests {
     ConcreteMember cm5 = new ConcreteMember(ga3);
     ConcreteMember cm6 = new ConcreteMember(ga3);
     ConcreteMember cm7 = new ConcreteMember(ga3);
-//    ConcreteMember cm8 = new ConcreteMember(ga3);
+    //    ConcreteMember cm8 = new ConcreteMember(ga3);
 //    ConcreteMember cm9 = new ConcreteMember(ga3);
 //    ConcreteMember cm10 = new ConcreteMember(ga3);
 //    ConcreteMember cm11 = new ConcreteMember(ga3);
@@ -202,6 +203,38 @@ public class Tests {
         logger.info(() -> JvmUtilities.objectTotalSize(s1));
 
         logger.info(() -> JvmUtilities.jvmInfo());
+    }
+
+    @Test
+    public void testOfJVMUtilities() {
+        logger.info(() -> JvmUtilities.jvmInfo());
+        assertDoesNotThrow(JvmUtilities::jvmInfo);
+        //Tests for JVM info
+        assertDoesNotThrow(() -> JvmUtilities.jvmInfo());
+        assertDoesNotThrow(() -> JvmUtilities.memoryStats(ga1));
+        assertDoesNotThrow(() -> JvmUtilities.objectTotalSize(ga1));
+        assertDoesNotThrow(() -> JvmUtilities.objectFootprint(ga1));
+        logger.info(() -> JvmUtilities.objectTotalSize(ga3));
+        logger.info(() -> JvmUtilities.objectFootprint(ga3));
+        logger.info(() -> JvmUtilities.memoryStats(ga3));
+        ga3.append("JVM TEST");
+        logger.info(() -> JvmUtilities.objectTotalSize(ga3));
+        logger.info(() -> JvmUtilities.objectFootprint(ga3));
+        logger.info(() -> JvmUtilities.memoryStats(ga3));
+        ga3.delete(0, 8);
+        logger.info(() -> JvmUtilities.objectTotalSize(ga3));
+        logger.info(() -> JvmUtilities.objectFootprint(ga3));
+        logger.info(() -> JvmUtilities.memoryStats(ga3));
+        ga3.undo();
+        logger.info(() -> JvmUtilities.objectTotalSize(ga3));
+        logger.info(() -> JvmUtilities.objectFootprint(ga3));
+        logger.info(() -> JvmUtilities.memoryStats(ga3));
+        ga3.undo();
+        logger.info(() -> JvmUtilities.objectTotalSize(ga3));
+        logger.info(() -> JvmUtilities.objectFootprint(ga3));
+        logger.info(() -> JvmUtilities.memoryStats(ga3));
+
+
     }
 
 }
