@@ -36,15 +36,22 @@ You can learn more about this project here [UndoableStringBuilder](https://githu
 
 
 
-
-    
-    
-
-
 ## UML diagram of our project
 In order to understand more about the structure of the project, 
 especially the structure of Observer.
 ![observer](https://user-images.githubusercontent.com/92925727/209137747-b6cb8a80-2ad2-43da-a7cd-81149c45a8e2.png)
+
+## Test
+We performed several tests in order to check the normal functions. 
+We also used the methods of the JvmUtilities class given to us in the assignment. This methods examines the effectiveness of our implementation.
+
+- [x] **ObjectFootprint**
+  > Shallow and deep size footprint of the object/objects
+- [x] **ObjectTotalSize**
+  > Computes the total (deep) size of the given object
+- [x] **JvmInfo**
+  > Returns JVM's process id, total memory allocated at the beginning of the program as well as the available number of cores.
+
 
 ##   Download and run the Project:
 
@@ -52,5 +59,6 @@ Download the whole project and export it by the above actions:
 ```
 Click Code (Green Button) -> Click Download ZIP -> Choose Extract to Folder in Zip 
 ```
+
 
 
